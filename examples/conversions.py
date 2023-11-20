@@ -8,17 +8,15 @@ from ai_emotion.simple_emotion import VectoralEmotion, PlutchikEmotion, Physiolo
 from ai_emotion.conversion import convert_emotion
 
 
+load_dotenv()
+openai_api_key = cast(str, os.getenv("OPENAI_API_KEY"))
+
+
 vectoral_emotion = VectoralEmotion(
     valence=0.1,
     arousal=0.2,
     control=0.8,
 )
-
-
-load_dotenv()
-openai_api_key = cast(str, os.getenv("OPENAI_API_KEY"))
-
-
 plutchik_emotion = convert_emotion(
     vectoral_emotion,
     PlutchikEmotion,
@@ -35,7 +33,9 @@ vectoral_emotion_2 = convert_emotion(
     physiological_emotion,
     VectoralEmotion,
     openai_api_key=openai_api_key,
-)
+)  # context is optional
+
+
 print(
 f"""
 Vectoral Emotion: {asdict(vectoral_emotion)}
