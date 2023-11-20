@@ -59,7 +59,7 @@ With inspiration from theories like James-Lange, Cannon-Bard, and Schachter-Sing
 
 ### Conversion Between Representations
 
-Conversion between representations requires using an LLM. This is because the emotional interpretation of a physiological reaction is context-dependent.
+Conversion between representations requires using an LLM. This is because the emotional interpretation of a physiological reaction is context-dependent. Note that converting between different representations is also very inexact, and you will very likely not get the same vector back from doing an inverse operation.
 
 ## Complex Emotional Representations
 
@@ -71,12 +71,17 @@ In this package we represent complex emotions in the following ways:
 
 # Examples
 
+This is a simple example of how to use the package. See the examples/ folder for more complex examples.
+
 ```
 from dotenv import load_dotenv
 import os
 from typing import cast
 
-from ai_emotion import VectoralEmotion, PlutchikEmotion, PhysiologicalEmotion, ComplexEmotion
+from ai_emotion.complex_emotion import ComplexEmotion
+from ai_emotion.conversion import to_plutchik
+from ai_emotion.simple_emotion import VectoralEmotion, PlutchikEmotion, PhysiologicalEmotion
+from ai_emotion.transition import transition
 
 
 vectoral_emotion = VectoralEmotion(
@@ -84,48 +89,11 @@ vectoral_emotion = VectoralEmotion(
     arousal=0.2,
     control=0.8,
 )
-plutchik_emotion = PlutchikEmotion(
-    joy=0.1,
-    sadness=0.2,
-    trust=0.1,
-    disgust=0.3,
-    fear=0.8,
-    anger=0.6,
-    surprise=0.7,
-    anticipation=0.2,
-)
-physiological_emotion = PhysiologicalEmotion(
-    heart_rate=0.1,
-    breathing_rate=0.2,
-    hair_raised=0.1,
-    blood_pressure=0.3,
-    body_temperature=0.2,
-    muscle_tension=0.1,
-    pupil_dilation=0.3,
-    gi_blood_flow=0.6,
-    amygdala_blood_flow=0.1,
-    prefrontal_cortex_blood_flow=0.8,
-    muscle_blood_flow=0.2,
-    genitalia_blood_flow=0.0,
-    smile_muscle_activity=0.0,
-    brow_furrow_activity=0.0,
-    lip_tightening=0.0,
-    throat_tightness=0.0,
-    mouth_dryness=0.1,
-    voice_pitch_raising=0.1,
-    speech_rate=0.3,
-    cortisol_level=0.6,
-    adrenaline_level=0.2,
-    oxytocin_level=0.5,
-)
 
 
 load_dotenv()
-converted_vectoral_emotion = physiological_emotion.to_vectoral(
-    openai_api_key=cast(str, os.getenv("OPENAI_API_KEY")),
-    context="Thinking about my project.",
-)
-converted_plutchik_emotion = vectoral_emotion.to_plutchik(
+converted_plutchik_emotion = to_plutchik(
+    vectoral_emotion,
     openai_api_key=cast(str, os.getenv("OPENAI_API_KEY")),
     context="Getting prepared for a presentation.",
 )
@@ -135,7 +103,8 @@ complex_emotion = ComplexEmotion([
     (0.7, vectoral_emotion),
     (0.3, converted_vectoral_emotion),
 ])
-later_complex_emotion = complex_emotion.transition(
+later_complex_emotion = transition(
+    complex_emotion,
     openai_api_key=cast(str, os.getenv("OPENAI_API_KEY")),
     context="Started my presentation.",
 )

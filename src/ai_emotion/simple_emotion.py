@@ -1,28 +1,12 @@
-from dataclasses import dataclass, asdict
-import json
-from typing import Type, cast
+from dataclasses import dataclass
+from typing import cast, Self
+from random import random
 
-from gpt_interface import GptInterface
-
-
-def get_gpt_interface(openai_api_key: str) -> GptInterface:
-    interface = GptInterface(
-        openai_api_key=openai_api_key,
-        model='gpt-4',
-        json_mode=True,
-    )
-    interface.set_system_message(
-        """
-        Create a possible conversion between emotion representations that seems reasonable.
-        Give your best guesses, and respond with the emotion in JSON format.
-        Don't add any extra information in your response.
-        """
-    )
-    return interface
+from ai_emotion.emotion_vector import EmotionVector
 
 
 @dataclass
-class PhysiologicalEmotion:
+class PhysiologicalEmotion(EmotionVector):
     heart_rate: float
     breathing_rate: float
     hair_raised: float
@@ -76,41 +60,36 @@ class PhysiologicalEmotion:
             """
         )
 
-    def to_plutchik(
-        self,
-        openai_api_key: str,
-        context: str | None = None,
-    ) -> 'PlutchikEmotion':
-        return cast(
-            PlutchikEmotion,
-            convert_emotion(
-                openai_api_key=openai_api_key,
-                type_a=PhysiologicalEmotion,
-                type_b=PlutchikEmotion,
-                emotion_a=self,
-                context=context,
-            ),
-        )
-
-    def to_vectoral(
-        self,
-        openai_api_key: str,
-        context: str | None = None,
-    ) -> 'VectoralEmotion':
-        return cast(
-            VectoralEmotion,
-            convert_emotion(
-                openai_api_key=openai_api_key,
-                type_a=PhysiologicalEmotion,
-                type_b=VectoralEmotion,
-                emotion_a=self,
-                context=context,
-            ),
+    @classmethod
+    def random(cls) -> Self:
+        return PhysiologicalEmotion(
+            heart_rate=random(),
+            breathing_rate=random(),
+            hair_raised=random(),
+            blood_pressure=random(),
+            body_temperature=random(),
+            muscle_tension=random(),
+            pupil_dilation=random(),
+            gi_blood_flow=random(),
+            amygdala_blood_flow=random(),
+            prefrontal_cortex_blood_flow=random(),
+            muscle_blood_flow=random(),
+            genitalia_blood_flow=random(),
+            smile_muscle_activity=random(),
+            brow_furrow_activity=random(),
+            lip_tightening=random(),
+            throat_tightness=random(),
+            mouth_dryness=random(),
+            voice_pitch_raising=random(),
+            speech_rate=random(),
+            cortisol_level=random(),
+            adrenaline_level=random(),
+            oxytocin_level=random(),
         )
 
 
 @dataclass
-class PlutchikEmotion:
+class PlutchikEmotion(EmotionVector):
     joy: float
     sadness: float
     trust: float
@@ -136,41 +115,22 @@ class PlutchikEmotion:
             """
         )
 
-    def to_physiological(
-        self,
-        openai_api_key: str,
-        context: str | None = None,
-    ) -> 'PhysiologicalEmotion':
-        return cast(
-            PhysiologicalEmotion,
-            convert_emotion(
-                openai_api_key=openai_api_key,
-                type_a=PlutchikEmotion,
-                type_b=PhysiologicalEmotion,
-                emotion_a=self,
-                context=context,
-            ),
-        )
-
-    def to_vectoral(
-        self,
-        openai_api_key: str,
-        context: str | None = None,
-    ) -> 'VectoralEmotion':
-        return cast(
-            VectoralEmotion,
-            convert_emotion(
-                openai_api_key=openai_api_key,
-                type_a=PlutchikEmotion,
-                type_b=VectoralEmotion,
-                emotion_a=self,
-                context=context,
-            ),
+    @classmethod
+    def random(cls) -> Self:
+        return PlutchikEmotion(
+            joy=random(),
+            sadness=random(),
+            trust=random(),
+            disgust=random(),
+            fear=random(),
+            anger=random(),
+            surprise=random(),
+            anticipation=random(),
         )
 
 
 @dataclass
-class VectoralEmotion:
+class VectoralEmotion(EmotionVector):
     valence: float
     arousal: float
     control: float
@@ -186,61 +146,10 @@ class VectoralEmotion:
             """
         )
 
-    def to_physiological(
-        self,
-        openai_api_key: str,
-        context: str | None = None,
-    ) -> 'PhysiologicalEmotion':
-        return cast(
-            PhysiologicalEmotion,
-            convert_emotion(
-                openai_api_key=openai_api_key,
-                type_a=VectoralEmotion,
-                type_b=PhysiologicalEmotion,
-                emotion_a=self,
-                context=context,
-            ),
+    @classmethod
+    def random(cls) -> Self:
+        return VectoralEmotion(
+            valence=random()*2-1,
+            arousal=random()*2-1,
+            control=random()*2-1,
         )
-
-    def to_plutchik(
-        self,
-        openai_api_key: str,
-        context: str | None = None,
-    ) -> 'PlutchikEmotion':
-        return cast(
-            PlutchikEmotion,
-            convert_emotion(
-                openai_api_key=openai_api_key,
-                type_a=VectoralEmotion,
-                type_b=PlutchikEmotion,
-                emotion_a=self,
-                context=context,
-            ),
-        )
-
-
-SimpleEmotion = PhysiologicalEmotion | PlutchikEmotion | VectoralEmotion
-
-
-def convert_emotion(
-    openai_api_key: str,
-    type_a: Type[SimpleEmotion],
-    type_b: Type[SimpleEmotion],
-    emotion_a: SimpleEmotion,
-    context: str | None,
-) -> SimpleEmotion:
-    interface = get_gpt_interface(openai_api_key)
-    prompt = ( 
-        f"""
-        {type_a.description()}
-
-        {type_b.description()}
-
-        Convert the following {type_a.__name__} to a {type_b.__name__}:
-        {asdict(emotion_a)}
-        """
-    )
-    if context:
-        prompt += f"The context for this emotion is: {context}"
-    response = interface.say(prompt)
-    return type_b(**json.loads(response))
