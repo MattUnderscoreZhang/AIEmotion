@@ -18,14 +18,14 @@ def convert_emotion(
 ) -> B:
     interface = get_gpt_interface(openai_api_key)
     prompt = ( 
-        f"""
-        {emotion_a.description()}
+f"""
+{emotion_a.description()}
 
-        {type_b.description()}
+{type_b.description()}
 
-        Convert the following {emotion_a.__class__.__name__} to a {type_b.__name__}:
-        {asdict(emotion_a)}
-        """
+Convert the following {emotion_a.__class__.__name__} to a {type_b.__name__}:
+{asdict(emotion_a)}
+"""
     )
     if context:
         prompt += f"The context for this emotion is: {context}"

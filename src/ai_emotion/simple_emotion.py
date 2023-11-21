@@ -33,31 +33,31 @@ class PhysiologicalEmotion(EmotionVector):
     @classmethod
     def description(cls) -> str:
         return (
-            """
-            PhysiologicalEmotion is a vector with the following values, where each value is a float from 0 to 1 inclusive, representing the intensity of the physiological response:
-            - heart_rate
-            - breathing_rate
-            - hair_raised
-            - blood_pressure
-            - body_temperature
-            - muscle_tension
-            - pupil_dilation
-            - gi_blood_flow
-            - amygdala_blood_flow
-            - prefrontal_cortex_blood_flow
-            - muscle_blood_flow
-            - genitalia_blood_flow
-            - smile_muscle_activity
-            - brow_furrow_activity
-            - lip_tightening
-            - throat_tightness
-            - mouth_dryness
-            - voice_pitch_raising
-            - speech_rate
-            - cortisol_level
-            - adrenaline_level
-            - oxytocin_level
-            """
+"""
+PhysiologicalEmotion is a vector with the following values, where each value is a float from 0 to 1 inclusive, representing the intensity of the physiological response:
+- heart_rate
+- breathing_rate
+- hair_raised
+- blood_pressure
+- body_temperature
+- muscle_tension
+- pupil_dilation
+- gi_blood_flow
+- amygdala_blood_flow
+- prefrontal_cortex_blood_flow
+- muscle_blood_flow
+- genitalia_blood_flow
+- smile_muscle_activity
+- brow_furrow_activity
+- lip_tightening
+- throat_tightness
+- mouth_dryness
+- voice_pitch_raising
+- speech_rate
+- cortisol_level
+- adrenaline_level
+- oxytocin_level
+"""
         )
 
     @classmethod
@@ -102,17 +102,17 @@ class PlutchikEmotion(EmotionVector):
     @classmethod
     def description(cls) -> str:
         return (
-            """
-            PlutchikEmotion is a vector with the following values, where each value is a float from 0 to 1 inclusive, representing the intensity of the emotion:
-            - joy
-            - sadness
-            - trust
-            - disgust
-            - fear
-            - anger
-            - surprise
-            - anticipation
-            """
+"""
+PlutchikEmotion is a vector with the following values, where each value is a float from 0 to 1 inclusive, representing the intensity of the emotion:
+- joy
+- sadness
+- trust
+- disgust
+- fear
+- anger
+- surprise
+- anticipation
+"""
         )
 
     @classmethod
@@ -138,12 +138,12 @@ class VectoralEmotion(EmotionVector):
     @classmethod
     def description(cls) -> str:
         return (
-            """
-            VectoralEmotion is a vector with the following values, where each value is a float from -1 to 1 inclusive, representing the intensity of the emotion:
-            - valence (negative is bad, positive is good)
-            - arousal (negative is calm, positive is excited)
-            - control (negative is submissive, positive is dominant)
-            """
+"""
+VectoralEmotion is a vector with the following values, where each value is a float from -1 to 1 inclusive, representing the intensity of the emotion:
+- valence (negative is bad, positive is good)
+- arousal (negative is calm, positive is excited)
+- control (negative is submissive, positive is dominant)
+"""
         )
 
     @classmethod

@@ -1,7 +1,7 @@
 
 [project]
 name = "ai_emotion"
-version = "0.2.1"
+version = "0.3.0"
 description = "Representation of emotional state for use in AI agents."
 authors = [
     {name = "Matt Zhang", email = "set.stun@gmail.com"},
