@@ -1,7 +1,7 @@
 
 [project]
 name = "ai_emotion"
-version = "0.3.2"
+version = "0.3.3"
 description = "Representation of emotional state for use in AI agents."
 authors = [
     {name = "Matt Zhang", email = "set.stun@gmail.com"},
@@ -15,6 +15,9 @@ dependencies = [
 requires-python = ">=3.8"
 readme = "README.md"
 license = {text = "MIT"}
+
+[project.urls]
+"Homepage" = "https://github.com/MattUnderscoreZhang/AIEmotion"
 
 [build-system]
 requires = ["pdm-backend"]
