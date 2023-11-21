@@ -17,7 +17,7 @@ An emotion is given as a vector in a 3D space. Each dimension can have a value f
 
 Plutchik's wheel is shown below:
 
-![Puutchi's Wheel of Emotions](https://en.m.wikipedia.org/wiki/File:Plutchik-wheel.svg)
+![Plutchik's Wheel of Emotions](https://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg)
 
 Here Plutchik identifies eight primary emotions. These primary emotions can be combined to form secondary emotions, which can be combined to form tertiary emotions.
 
