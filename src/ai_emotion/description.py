@@ -14,7 +14,9 @@ def describe_emotion(
 f"""
 {emotion.__class__.description()}
 
-Describe the following emotion in words (e.g. "Nervous about an upcoming presentation, and worried that I may perform poorly.").
+Describe the following emotion in words.
+First describe it in one or two words, then in detail (e.g. "Anxious. Nervous about an upcoming presentation, and worried that I may perform poorly.").
+Don't describe the individual components of the emotion.
 Emotion:
 {asdict(emotion)}
 """
