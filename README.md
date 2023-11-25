@@ -73,7 +73,7 @@ In this package we represent complex emotions in the following ways:
 
 This is a simple example of how to use the package. See the examples/ folder for more complex examples.
 
-```
+```python
 from dotenv import load_dotenv
 import os
 from typing import cast
